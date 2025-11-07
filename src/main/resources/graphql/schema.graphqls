@@ -1,0 +1,63 @@
+type Query {
+    tasks(status: TaskStatus, page: Int = 0, size: Int = 20, sort: [String!]): TaskPage!
+    task(id: ID!): Task
+}
+
+type Mutation {
+    createTask(input: TaskInput!): Task!
+    updateTask(id: ID!, input: TaskInput!): Task!
+    partialUpdateTask(id: ID!, input: TaskPartialInput!): Task!
+    deleteTask(id: ID!): Boolean!
+}
+
+type Task {
+    id: ID!
+    title: String!
+    description: String
+    status: TaskStatus!
+    priority: TaskPriority!
+    version: Long!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+input TaskInput {
+    title: String!
+    description: String
+    status: TaskStatus
+    priority: TaskPriority
+}
+
+input TaskPartialInput {
+    title: String
+    description: String
+    status: TaskStatus
+    priority: TaskPriority
+}
+
+type TaskPage {
+    content: [Task!]!
+    totalElements: Long!
+    totalPages: Int!
+    number: Int!
+    size: Int!
+    numberOfElements: Int!
+    first: Boolean!
+    last: Boolean!
+}
+
+enum TaskStatus {
+    TO_DO
+    IN_PROGRESS
+    DONE
+}
+
+enum TaskPriority {
+    LOW
+    MED
+    HIGH
+}
+
+scalar DateTime
+scalar Long
+
